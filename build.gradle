@@ -1,0 +1,109 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.10'
+}
+
+group 'info.digitalpoet.utils'
+version '0.0.1'
+def release_type = "Alpha"
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+
+            from components.java
+
+            groupId = rootProject.group
+            artifactId = rootProject.name
+            version = rootProject.version
+
+            artifact project.sourcesJar {
+                classifier "sources"
+                extension "zip"
+            }
+
+            pom {
+                name = "Kotlonic"
+                description = "A Kotlin utils using koltin programing style"
+                url = "https://github.com/amoncusir/kotlonic"
+
+                licenses {
+                    license {
+                        name = "GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007"
+                        url = "https://www.gnu.org/licenses/gpl-3.0.en.html"
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = "amoncusir"
+                        name = "Aran Moncusí"
+                        email = "amoncusir@gmail.com"
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:https://github.com/amoncusir/kotlonic.git"
+                    url = "https://github.com/amoncusir/kotlonic"
+                }
+            }
+        }
+    }
+
+    repositories {
+
+    }
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
+
+    publish = true
+
+    publications = ['maven']
+
+    pkg {
+        repo = "utils"
+        name = "kotlonic"
+        desc = "A Kotlin utils using koltin programing style"
+
+        publicDownloadNumbers = true
+
+        licenses = ["AGPL-V3"]
+        labels = ["gradle", "koltin", "utils"]
+
+        vcsUrl = "https://github.com/amoncusir/kotlin.git"
+        githubRepo = "amoncusir/kotlin"
+        githubReleaseNotesFile = "README.md"
+
+        version {
+            name = "${rootProject.version}-${release_type}"
+            vcsTag = rootProject.version
+            desc = "First Upload"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    
+    // Kotlin dependencies
+    implementation('org.jetbrains.kotlin:kotlin-reflect')
+    implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
+}
+
+detekt {
+    parallel = true
+    config = files("${project.rootProject.projectDir.absolutePath}/detekt-config.yml")
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
