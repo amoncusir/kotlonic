@@ -32,7 +32,8 @@ infix fun <T> Iterable<T>.or(conj: Iterable<T>): Iterable<T> = (this + conj).toH
  *
  *   `[1, 2, 3, 4, 5, 6, 7] xor [4, 5, 6, 7, 8, 9, 0] == [1, 2, 3, 8, 9, 0]`
  */
-infix fun <T> Iterable<T>.xor(conj: Iterable<T>): Iterable<T> = this.filter { it !in conj } or conj.filter { it !in this }
+infix fun <T> Iterable<T>.xor(conj: Iterable<T>): Iterable<T> =
+        this.filter { it !in conj } or conj.filter { it !in this }
 
 //~ Annotations ========================================================================================================
 
