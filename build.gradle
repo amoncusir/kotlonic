@@ -79,8 +79,8 @@ bintray {
         licenses = ["AGPL-V3"]
         labels = ["gradle", "koltin", "utils"]
 
-        vcsUrl = "https://github.com/amoncusir/kotlin.git"
-        githubRepo = "amoncusir/kotlin"
+        vcsUrl = "https://github.com/amoncusir/kotlonic.git"
+        githubRepo = "amoncusir/kotlonic"
         githubReleaseNotesFile = "README.md"
 
         version {
