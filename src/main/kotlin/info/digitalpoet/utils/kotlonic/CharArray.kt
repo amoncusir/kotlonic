@@ -24,16 +24,19 @@ fun CharSequence.safeSubstring(range: IntRange): String =
         if(this.length > range.last) this.substring(range) else this.toString()
 
 fun CharSequence.capitalizeWords(): String =
-        this.toString().replace("[^\\p{Punct}\\d\\p{Space}]+".toRegex()) { m -> m.value.capitalize() }
+        this.replace("[^\\p{Punct}\\d\\p{Space}]+".toRegex()) { m -> m.value.capitalize() }
 
 fun CharSequence.toCamelCase(): String =
-        this.toString().trim().capitalizeWords().replaceNoneAlpha("")
+        this
+            .trim()
+            .capitalizeWords()
+            .replaceNoneAlpha("")
 
 fun CharSequence.toUnderscoreCase(): String =
         this.toCamelCase()
             .decapitalize()
             .map { if(it.isUpperCase()) "_" + it.toLowerCase() else it.toString() }
-            .reduce { acc, c -> acc + c }.toLowerCase()
+            .reduce { acc, c -> acc + c }
 
 fun CharSequence.splitByStep(range: IntProgression): List<String>
 {
