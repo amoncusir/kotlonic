@@ -18,7 +18,7 @@ import kotlin.reflect.full.allSuperclasses
 @Suppress("UNCHECKED_CAST")
 fun <R> getKPropertyFromJavaProperty(c: Class<*>, name: String): KProperty<R>
 {
-    val prop = c.kotlin.allProperties().filter { it.name == name }.firstOrNull()!!
+    val prop = c.kotlin.allProperties().firstOrNull { it.name == name }!!
     return prop as KProperty<R>
 }
 
@@ -28,7 +28,10 @@ fun <R> getKPropertyFromJavaProperty(c: Class<*>, name: String): KProperty<R>
  *  Get all members, include superclass members (inherited)
  */
 fun KClass<*>.allMembers(): List<KCallable<*>> =
-    this.members or this.allSuperclasses.map { it.members }.reduce { acc, next -> acc or next }
+    (members or allSuperclasses
+        .map { it.members }
+        .reduce { acc: Iterable<KCallable<*>>, collection: Collection<KCallable<*>> -> acc or collection })
+        .toList()
 
 /**
  * Get all members, and filter by Property

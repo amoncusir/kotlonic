@@ -1,5 +1,12 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.10'
+
+    // Quality check
+    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC11"
+
+    // Publishers
+    id("com.jfrog.bintray") version "1.8.4"
+    id 'maven-publish'
 }
 
 group 'info.digitalpoet.utils'
@@ -85,11 +92,12 @@ bintray {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
-    
+
     // Kotlin dependencies
     implementation('org.jetbrains.kotlin:kotlin-reflect')
     implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
@@ -106,4 +114,8 @@ compileKotlin {
 
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
 }
